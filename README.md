@@ -1,73 +1,126 @@
-# Flask API Project
+# IELTS Writing Task 2 Scoring API
 
-This project is a Flask-based API for evaluating IELTS essays, correcting grammar, and generating model answers. It utilizes various libraries for natural language processing and machine learning.
+This project is a **Flask-based API** for evaluating IELTS Writing Task 2 essays.
+It automatically scores essays across IELTS bands, corrects grammar, and generates model answers using **NLP (Transformers, LanguageTool, and Scikit-learn)**.
 
-## Project Structure
+---
+
+## ✨ Features
+
+* **Automatic Scoring**: Provides IELTS band scores (Task Response, Coherence & Cohesion, Lexical Resource, Grammar).
+* **Grammar Correction**: Uses `language_tool_python` for grammar feedback.
+* **Model Answer Generation**: Suggests a sample answer based on the essay prompt.
+* **API Endpoint**: Simple JSON REST API with `/evaluate`.
+* **Docker Support**: Easy to run in any environment.
+
+---
+
+## 📂 Project Structure
 
 ```
-flask-api-project
-├── app
-│   ├── __init__.py
-│   ├── api.py
-│   └── models.py
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
+.
+├── ai.py                # Core scoring logic (NLP, scoring, correction, answer generation)
+├── app.py               # Flask API endpoints
+├── requirements.txt     # Dependencies
+├── Dockerfile           # Docker build file
+├── docker-compose.yml   # Docker Compose setup
+└── README.md            # Project documentation
 ```
 
-## Setup Instructions
+---
 
-1. **Clone the repository:**
-   ```
-   git clone <repository-url>
-   cd flask-api-project
-   ```
+## 🚀 Installation & Usage
 
-2. **Install dependencies:**
-   You can install the required dependencies using pip:
-   ```
-   pip install -r requirements.txt
-   ```
+### 1. Clone Repository
 
-3. **Run the application:**
-   You can run the application locally using:
-   ```
-   python -m flask run
-   ```
+```bash
+git clone https://github.com/<username>/ielts-writing-task2-scoring.git
+cd ielts-writing-task2-scoring
+```
 
-## Docker Deployment
+### 2. Install Dependencies
 
-To deploy the application using Docker, follow these steps:
+```bash
+pip install -r requirements.txt
+```
 
-1. **Build the Docker image:**
-   ```
-   docker build -t flask-api-project .
-   ```
+### 3. Run Locally
 
-2. **Run the Docker container:**
-   ```
-   docker run -p 5000:5000 flask-api-project
-   ```
+```bash
+python app.py
+```
 
-3. **Using Docker Compose:**
-   You can also use Docker Compose to run the application:
-   ```
-   docker-compose up
-   ```
+API will be available at:
+👉 `http://127.0.0.1:5000/evaluate`
 
-## Usage
+### 4. Example API Request
 
-Once the application is running, you can access the API endpoints at `http://localhost:5000`. The available endpoints include:
+```bash
+curl -X POST http://127.0.0.1:5000/evaluate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Some people think children should do housework. Discuss both views and give your opinion.",
+    "essay": "Many people argue that children should do housework because..."
+  }'
+```
 
-- **Evaluate IELTS Essay:** `/evaluate`
-- **Correct Grammar:** `/correct`
-- **Generate Model Answer:** `/generate`
+Example JSON Response:
 
-## Contributing
+```json
+{
+  "task_response": 6.5,
+  "coherence": 6.0,
+  "lexical_resource": 6.5,
+  "grammar_score": 6.0,
+  "overall_band": 6.5,
+  "corrected_essay": "...",
+  "model_answer": "...",
+  "grammar_errors": [...]
+}
+```
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
+---
 
-## License
+## 🐳 Run with Docker
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+### Build Docker Image
+
+```bash
+docker build -t ielts-scoring .
+```
+
+### Run Container
+
+```bash
+docker run -p 5000:5000 ielts-scoring
+```
+
+### Using Docker Compose
+
+```bash
+docker-compose up
+```
+
+---
+
+## 🛠 Tech Stack
+
+* **Python 3.10+**
+* **Flask** (API framework)
+* **Transformers** (DistilBERT embeddings for semantic similarity)
+* **Torch** (PyTorch backend)
+* **LanguageTool** (grammar checking)
+* **Scikit-learn, Pandas, NumPy** (NLP utilities, metrics)
+* **Docker** (deployment ready)
+
+---
+
+## 📜 License
+
+MIT License. Free to use, modify, and share.
+
+---
+
+## 🙌 Author
+
+Developed by [Hoàng](https://github.com/<your-username>) as a project to explore **NLP + Automated Essay Scoring**.
