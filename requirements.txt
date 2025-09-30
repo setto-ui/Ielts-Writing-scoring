@@ -1,0 +1,7 @@
+﻿flask
+transformers
+scikit-learn
+pandas
+numpy==1.26.4
+language-tool-python
+torch==2.2.2+cpu
